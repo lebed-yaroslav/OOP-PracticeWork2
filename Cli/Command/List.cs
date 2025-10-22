@@ -25,7 +25,6 @@ public static class List {
 			return;
 		}
 
-		foreach (var item in list)
-			Console.WriteLine(item);
+		CommandUtils.ShowPaged(list);
 	}
 }

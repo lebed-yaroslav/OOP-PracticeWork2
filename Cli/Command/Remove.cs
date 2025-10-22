@@ -1,4 +1,5 @@
-﻿using PracticeWork2.University;
+﻿using PracticeWork2.Person;
+using PracticeWork2.University;
 
 
 namespace PracticeWork2.Cli.Command;
@@ -15,22 +16,21 @@ public static class Remove {
 
 		var toRemove = university
 			.FindByLastName(args[1])
-			.ToArray();
+			.Index();
 
 		Console.WriteLine("Found entries:");
-		for (int i = 0; i < toRemove.Length; i++)
-			Console.WriteLine($"{i}. {toRemove[i]}");
+		CommandUtils.ShowPaged(toRemove);
 
 		Console.WriteLine("Enter index of entry to delete, or leave blank to cancel remove");
 		Console.Write("i > ");
 
 		if (int.TryParse(Console.ReadLine(), out int k)) {
-			if (k < 0 || k >= toRemove.Length) {
+			var person = toRemove.ElementAtOrDefault(k).Item;
+			if (person is null) {
 				Console.WriteLine($"{k} is out of range");
 				return;
 			}
 
-			var person = toRemove[k];
 			university.Remove(person);
 			Console.WriteLine($"Removed: {person}");
 		}

@@ -24,7 +24,6 @@ public static class FindBy {
 			return;
 		}
 
-		foreach (var item in result)
-			Console.WriteLine(item);
+		CommandUtils.ShowPaged(result);
 	}
 }

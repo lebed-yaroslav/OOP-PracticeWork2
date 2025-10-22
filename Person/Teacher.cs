@@ -1,7 +1,4 @@
-﻿using PracticeWork2.Cli.Command;
-using System.Reflection;
-
-namespace PracticeWork2.Person;
+﻿namespace PracticeWork2.Person;
 
 public sealed class Teacher(
 	PersonData personData,

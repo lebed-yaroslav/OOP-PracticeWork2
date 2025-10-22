@@ -22,16 +22,16 @@ public sealed class Teacher(
 	public TeacherPosition Position { get; set; } = position;
 
 
-	public static Student Parse(string s) {
+	public static Teacher Parse(string s) {
 		var fields = s.Split(',', StringSplitOptions.TrimEntries);
 		if (fields.Length < Fields.Length)
 			throw new MissingArgumentsException(Fields.Skip(fields.Length));
 
-		return new Student(
+		return new Teacher(
 			personData: PersonData.Parse(fields.AsSpan(0, 4)),
-			year: uint.Parse(fields[4]),
-			group: fields[5],
-			averagePoint: float.Parse(fields[6])
+			department: fields[4],
+			workExpirience: uint.Parse(fields[5]),
+			position: Enum.Parse<TeacherPosition>(fields[6])
 		);
 	}
 

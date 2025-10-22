@@ -7,19 +7,21 @@ namespace PracticeWork2.Cli.Command;
 public static class Add {
 	public static readonly CommandEntry Command = new(
 		Name: "add",
-		Arguments: ["<student|teacher>", "<serialized_person>"],
+		Arguments: ["<student|teacher|students|teachers>", "<serialized_person|filename>"],
 		Command: Execute
 	);
 
 	private static void Execute(string[] args, IUniversity university) {
 		Command.ValidateArgumentCount(args);
 
-		IPerson person;
+		IEnumerable<IPerson> persons;
 		try {
-			person = args[1] switch {
-				"student" => Student.Parse(args[2]),
-				"teacher" => Teacher.Parse(args[2]),
-				_ => throw new InvalidArgumentException(args[1], "Must be one of: student, teacher.")
+			persons = args[1] switch {
+				"student" => [Student.Parse(args[2])],
+				"teacher" => [Teacher.Parse(args[2])],
+				"students" => File.ReadAllLines(args[2]).Select(Student.Parse),
+				"teachers" => File.ReadAllLines(args[2]).Select(Teacher.Parse),
+				_ => throw new InvalidArgumentException(args[1], "Must be one of: student, teacher, students, teachers.")
 			};
 		}
 		catch (FormatException ex) {
@@ -27,6 +29,7 @@ public static class Add {
 			return;
 		}
 
-		university.Add(person);
+		foreach (var person in persons)
+			university.Add(person);
 	}
 }

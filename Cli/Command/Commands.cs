@@ -49,7 +49,7 @@ public sealed class Commands {
 		catch (KeyNotFoundException) {
 			Console.WriteLine($"Unknown command: '{args[0]}'. Enter 'help' to see available commands.");
 		}
-		catch (ArgumentException ex) {
+		catch (Exception ex) {
 			Console.WriteLine($"Error: {ex.Message}");
 		}
 	}

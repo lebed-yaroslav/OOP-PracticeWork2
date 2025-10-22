@@ -18,4 +18,23 @@ public interface IPerson {
 		if (BirthDate.Date > when.AddYears(-age)) age--;
 		return age;
 	}
+
+	public sealed class LastNameComparer : IComparer<IPerson> {
+		public static readonly LastNameComparer Instance = new();
+
+		private LastNameComparer() {}
+
+		public int Compare(IPerson? x, IPerson? y) {
+			if (ReferenceEquals(x, y)) return 0;
+			if (x == null) return -1;
+			if (y == null) return 1;
+			var result = x.LastName.CompareTo(y.LastName);
+			if (result != 0) return result;
+			result = x.Name.CompareTo(y.Name);
+			if (result != 0) return result;
+			result = x.Patronimic.CompareTo(y.Patronimic);
+			if (result != 0) return result;
+			return x.BirthDate.CompareTo(y.BirthDate);
+		}
+	}
 }
